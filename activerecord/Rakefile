@@ -25,7 +25,7 @@ desc 'Run mysql, mysql2, sqlite, and postgresql tests'
 task :test do
   tasks = defined?(JRUBY_VERSION) ?
     %w(test_jdbcmysql test_jdbcsqlite3 test_jdbcpostgresql) :
-    %w(test_mysql test_mysql2 test_sqlite3 test_postgresql)
+    %w(test_sqlite3)
   run_without_aborting(*tasks)
 end
 
@@ -33,7 +33,7 @@ namespace :test do
   task :isolated do
     tasks = defined?(JRUBY_VERSION) ?
       %w(isolated_test_jdbcmysql isolated_test_jdbcsqlite3 isolated_test_jdbcpostgresql) :
-      %w(isolated_test_mysql isolated_test_mysql2 isolated_test_sqlite3 isolated_test_postgresql)
+      %w(isolated_test_sqlite3)
     run_without_aborting(*tasks)
   end
 end
