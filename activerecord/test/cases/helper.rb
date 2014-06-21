@@ -208,3 +208,5 @@ require 'mocha/setup' # FIXME: stop using mocha
 # remove this method call.
 require 'active_support/test_case'
 ActiveSupport::TestCase.test_order = :sorted
+
+require 'goldiloader'

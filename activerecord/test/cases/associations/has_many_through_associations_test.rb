@@ -537,7 +537,9 @@ class HasManyThroughAssociationsTest < ActiveRecord::TestCase
   end
 
   def test_replace_association
-    assert_queries(4){posts(:welcome);people(:david);people(:michael); posts(:welcome).people(true)}
+    # When using Goldiloader has_many through associations are eager loaded which results in an
+    # additional query to eager load the source relation.
+    assert_queries(5){posts(:welcome);people(:david);people(:michael); posts(:welcome).people(true)}
 
     # 1 query to delete the existing reader (michael)
     # 1 query to associate the new reader (david)
@@ -657,7 +659,9 @@ class HasManyThroughAssociationsTest < ActiveRecord::TestCase
   end
 
   def test_clear_associations
-    assert_queries(2) { posts(:welcome);posts(:welcome).people(true) }
+    # Goldiloader: Eager-loading a has_many through results in a separate query for the through
+    # association rather than a join
+    assert_queries(3) { posts(:welcome);posts(:welcome).people(true) }
 
     assert_queries(1) do
       posts(:welcome).people.clear

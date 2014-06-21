@@ -11,10 +11,12 @@ task :build => "all:build"
 desc "Release all gems to rubygems and create a tag"
 task :release => "all:release"
 
-PROJECTS = %w(activesupport activemodel actionpack actionview actionmailer activerecord railties activejob)
+#PROJECTS = %w(activesupport activemodel actionpack actionview actionmailer activerecord railties activejob)
+PROJECTS = %w(activerecord)
 
 desc 'Run all tests by default'
-task :default => %w(test test:isolated)
+#task :default => %w(test test:isolated)
+task :default => %w(test)
 
 %w(test test:isolated package gem).each do |task_name|
   desc "Run #{task_name} task for all projects"
