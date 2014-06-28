@@ -5,8 +5,10 @@ class Person < ActiveRecord::Base
 
   has_many :posts, :through => :readers
   has_many :secure_posts, :through => :secure_readers
+  # See https://github.com/salsify/goldiloader/issues/14
+  # HasManyThroughAssociationsTest#test_get_collection_singular_ids_on_has_many_through_with_conditions_and_include
   has_many :posts_with_no_comments, -> { includes(:comments).where('comments.id is null').references(:comments) },
-                                    :through => :readers, :source => :post
+                                    :through => :readers, :source => :post,  :auto_include => false
 
   has_many :friendships, foreign_key: 'friend_id'
   # friends_too exists to test a bug, and probably shouldn't be used elsewhere
@@ -18,7 +20,9 @@ class Person < ActiveRecord::Base
   has_many :fixed_bad_references, -> { where :favourite => true }, :class_name => 'BadReference'
   has_one  :favourite_reference, -> { where 'favourite=?', true }, :class_name => 'Reference'
   has_many :posts_with_comments_sorted_by_comment_id, -> { includes(:comments).order('comments.id') }, :through => :readers, :source => :post
-  has_many :first_posts, -> { where(id: [1, 2]) }, through: :readers
+  # See https://github.com/salsify/goldiloader/issues/14
+  # Generates select "readers".* from "readers" where "posts"."id" IN (1, 2). Scope should apply to FirstPosts not Readers.
+  has_many :first_posts, -> { where(id: [1, 2]) }, through: :readers, :auto_include => false
 
   has_many :jobs, :through => :references
   has_many :jobs_with_dependent_destroy,    :source => :job, :through => :references, :dependent => :destroy
