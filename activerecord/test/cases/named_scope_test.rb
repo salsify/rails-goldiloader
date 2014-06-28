@@ -159,7 +159,8 @@ class NamedScopeTest < ActiveRecord::TestCase
     assert_not_equal Comment.containing_the_letter_e, authors(:david).comments
     assert !Comment.containing_the_letter_e.empty?
 
-    assert_equal authors(:david).comments & Comment.containing_the_letter_e, authors(:david).comments.containing_the_letter_e
+    # Goldiloader: Make order deterministic
+    assert_equal (authors(:david).comments & Comment.containing_the_letter_e).sort_by(&:id), authors(:david).comments.containing_the_letter_e.sort_by(&:id)
   end
 
   def test_scopes_honor_current_scopes_from_when_defined
