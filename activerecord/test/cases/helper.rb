@@ -149,3 +149,5 @@ class << Time
     @now = nil
   end
 end
+
+require 'goldiloader'

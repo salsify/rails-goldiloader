@@ -1,6 +1,7 @@
 class Author < ActiveRecord::Base
   has_many :posts
-  has_many :very_special_comments, :through => :posts
+  # TODO: Goldiloader #12 - Detect an disable auto_include here
+  has_many :very_special_comments, :through => :posts, :auto_include => false
   has_many :posts_with_comments, :include => :comments, :class_name => "Post"
   has_many :popular_grouped_posts, :include => :comments, :class_name => "Post", :group => "type", :having => "SUM(comments_count) > 1", :select => "type"
   has_many :posts_with_comments_sorted_by_comment_id, :include => :comments, :class_name => "Post", :order => 'comments.id'
@@ -27,9 +28,11 @@ class Author < ActiveRecord::Base
   has_many :comments_with_include, :through => :posts, :source => :comments, :include => :post
 
   has_many :first_posts
+  # Goldiloader: through association not implicitly joined when eager loaded - TODO: Add include?
   has_many :comments_on_first_posts, :through => :first_posts, :source => :comments, :order => 'posts.id desc, comments.id asc'
 
-  has_one :first_post
+  # Goldiloader: This is really a has_many that relies on an implicit limit in a has_one
+  has_one :first_post, :auto_include => false
   has_one :comment_on_first_post,  :through => :first_post, :source => :comments, :order => 'posts.id desc, comments.id asc'
 
   has_many :thinking_posts, :class_name => 'Post', :conditions => { :title => 'So I was thinking' }, :dependent => :delete_all

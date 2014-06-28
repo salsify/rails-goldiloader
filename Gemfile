@@ -99,3 +99,5 @@ end
 gem 'ibm_db' if ENV['IBM_DB']
 
 gem 'benchmark-ips'
+
+gem 'goldiloader', path: '../goldiloader'
