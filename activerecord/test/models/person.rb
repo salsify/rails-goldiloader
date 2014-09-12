@@ -5,7 +5,10 @@ class Person < ActiveRecord::Base
 
   has_many :posts, :through => :readers
   has_many :secure_posts, :through => :secure_readers
-  has_many :posts_with_no_comments, :through => :readers, :source => :post, :include => :comments, :conditions => 'comments.id is null'
+  # Goldiloader: includes are run as a separate query when eager loaded. This is a Rails bug that
+  # won't be fix in 3.2.
+  has_many :posts_with_no_comments, :through => :readers, :source => :post, :include => :comments, :conditions => 'comments.id is null',
+           :auto_include => false
 
   has_many :followers, :foreign_key => 'friend_id', :class_name => 'Friendship'
 

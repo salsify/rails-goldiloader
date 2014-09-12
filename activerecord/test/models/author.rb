@@ -28,8 +28,10 @@ class Author < ActiveRecord::Base
   has_many :comments_with_include, :through => :posts, :source => :comments, :include => :post
 
   has_many :first_posts
-  # Goldiloader: through association not implicitly joined when eager loaded - TODO: Add include?
-  has_many :comments_on_first_posts, :through => :first_posts, :source => :comments, :order => 'posts.id desc, comments.id asc'
+  # Goldiloader: through association aren't implicitly join when eager loaded. This is a Rails bug that
+  # won't be fix in 3.2.
+  has_many :comments_on_first_posts, :through => :first_posts, :source => :comments, :order => 'posts.id desc, comments.id asc',
+           :auto_include => false
 
   # Goldiloader: This is really a has_many that relies on an implicit limit in a has_one
   has_one :first_post, :auto_include => false
@@ -95,13 +97,18 @@ class Author < ActiveRecord::Base
   has_many :nothings, :through => :kateggorisatons, :class_name => 'Category'
 
   has_many :author_favorites
-  has_many :favorite_authors, :through => :author_favorites, :order => 'name'
+  # Goldiloader: through association aren't implicitly join when eager loaded. This is a Rails bug that
+  # won't be fix in 3.2.
+  has_many :favorite_authors, :through => :author_favorites, :order => 'name', :auto_include => false
 
   has_many :tagging,         :through => :posts
   has_many :taggings,        :through => :posts
   has_many :tags,            :through => :posts
   has_many :similar_posts,   :through => :tags,  :source => :tagged_posts, :uniq => true
-  has_many :distinct_tags,   :through => :posts, :source => :tags, :select => "DISTINCT tags.*", :order => "tags.name"
+  # Goldiloader: through association aren't implicitly join when eager loaded. This is a Rails bug that
+  # won't be fix in 3.2.
+  has_many :distinct_tags,   :through => :posts, :source => :tags, :select => "DISTINCT tags.*", :order => "tags.name",
+           :auto_include => false
   has_many :post_categories, :through => :posts, :source => :categories
   has_many :tagging_tags,    :through => :taggings, :source => :tag
   has_many :tags_with_primary_key, :through => :posts
