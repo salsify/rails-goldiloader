@@ -10,30 +10,30 @@ rvm:
   - rbx-2
   - jruby
 env:
-  - "GEM=railties"
-  - "GEM=ap,am,amo,as,av"
-  - "GEM=ar:mysql"
-  - "GEM=ar:mysql2"
+#  - "GEM=railties"
+#  - "GEM=ap,am,amo,as,av"
+#  - "GEM=ar:mysql"
+#  - "GEM=ar:mysql2"
   - "GEM=ar:sqlite3"
-  - "GEM=ar:postgresql"
+#  - "GEM=ar:postgresql"
 matrix:
   allow_failures:
     - rvm: rbx-2
     - rvm: jruby
     - rvm: ruby-head
   fast_finish: true
-notifications:
-  email: false
-  irc:
-    on_success: change
-    on_failure: always
-    channels:
-      - "irc.freenode.org#rails-contrib"
-  campfire:
-    on_success: change
-    on_failure: always
-    rooms:
-      - secure: "YA1alef1ESHWGFNVwvmVGCkMe4cUy4j+UcNvMUESraceiAfVyRMAovlQBGs6\n9kBRm7DHYBUXYC2ABQoJbQRLDr/1B5JPf/M8+Qd7BKu8tcDC03U01SMHFLpO\naOs/HLXcDxtnnpL07tGVsm0zhMc5N8tq4/L3SHxK7Vi+TacwQzI="
+#notifications:
+#  email: false
+#  irc:
+#    on_success: change
+#    on_failure: always
+#    channels:
+#      - "irc.freenode.org#rails-contrib"
+#  campfire:
+#    on_success: change
+#    on_failure: always
+#    rooms:
+#      - secure: "YA1alef1ESHWGFNVwvmVGCkMe4cUy4j+UcNvMUESraceiAfVyRMAovlQBGs6\n9kBRm7DHYBUXYC2ABQoJbQRLDr/1B5JPf/M8+Qd7BKu8tcDC03U01SMHFLpO\naOs/HLXcDxtnnpL07tGVsm0zhMc5N8tq4/L3SHxK7Vi+TacwQzI="
 bundler_args: --path vendor/bundle --without test
 services:
   - memcached
